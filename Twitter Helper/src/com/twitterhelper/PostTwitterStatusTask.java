@@ -13,6 +13,7 @@ class PostTwitterStatusTask extends AsyncTask<Void, Void, Void> {
 
 	public PostTwitterStatusTask(Context mContext, String statusToPost,
 			TwitterStatusCallback mCallback, boolean showProgressDialog) {
+		this.mContext = mContext;
 		statusMessage = statusToPost;
 		showDialog = showProgressDialog;
 		this.mCallback = mCallback;
@@ -39,6 +40,7 @@ class PostTwitterStatusTask extends AsyncTask<Void, Void, Void> {
 
 	@Override
 	protected void onPostExecute(Void result) {
+		CommonMethods.dismissProgressDialog();
 		if (exception == null) {
 			mCallback.onPostSuccessfull(responseStatus);
 		} else {
