@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="dialog_default_message">Please Wait....</string>
+    <string name="dialog_loading_tracklist">Please Wait. Loading TrackList...</string>
+    <string name="dialog_login_title">Logging in</string>
+    <string name="dialog_signup_title">Signing Up</string>
+    <string name="dialog_fetching_route">Fetching route, Please wait...</string>
+    <string name="dialog_loading_settings">Loading user specific settings, Please wait...</string>
+</resources>
