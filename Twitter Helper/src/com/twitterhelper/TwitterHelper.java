@@ -31,15 +31,15 @@ public class TwitterHelper {
 			String TWITTER_CONSUMER_SECRET) {
 		CONSUMER_KEY = TWITTER_CONSUMER_KEY;
 		CONSUMER_SECRET = TWITTER_CONSUMER_SECRET;
-		// Shared Preferences
-		mSharedPreferences = mContext.getSharedPreferences(
-				Constants.PREFERENCE_NAME, Context.MODE_PRIVATE);
 	}
 
 	public static void logIntoTwitter(Context context,
 			TwitterLoginCallback mListener) {
 		mContext = context;
 		twitterLoginListener = mListener;
+		// Shared Preferences
+		mSharedPreferences = mContext.getSharedPreferences(
+				Constants.PREFERENCE_NAME, Context.MODE_PRIVATE);
 		// Check if Internet present
 		if (!InternetDetector.isConnectingToInternet(mContext)) {
 			String error = "Please connect to working Internet connection";
@@ -85,6 +85,9 @@ public class TwitterHelper {
 	public static void postStatusInBackground(final Context mContext,
 			final String status, final boolean showProgress,
 			final TwitterStatusCallback mCallback) {
+		// Shared Preferences
+		mSharedPreferences = mContext.getSharedPreferences(
+				Constants.PREFERENCE_NAME, Context.MODE_PRIVATE);
 		if (isTwitterLoggedIn()) {
 			PostTwitterStatusTask pst = new PostTwitterStatusTask(mContext,
 					status, mCallback, showProgress);
@@ -112,12 +115,17 @@ public class TwitterHelper {
 	/**
 	 * Post status to Twitter
 	 * 
+	 * @param mContext
 	 * @param status
 	 *            which the user wants to post on Twitter
 	 * @return Twitter status Response
 	 * @throws TwitterException
 	 */
-	public static Status postStatus(String status) throws TwitterException {
+	public static Status postStatus(Context mContext, String status)
+			throws TwitterException {
+		// Shared Preferences
+		mSharedPreferences = mContext.getSharedPreferences(
+				Constants.PREFERENCE_NAME, Context.MODE_PRIVATE);
 		// Update status
 		twitter4j.Status response = null;
 		if (isTwitterLoggedIn()) {
@@ -139,9 +147,6 @@ public class TwitterHelper {
 
 			// Update status
 			response = twitter.updateStatus(status);
-		} else {
-			CommonMethods.showAlertDialog(mContext, "Twitter Not Logged in",
-					"Log into twitter to continue");
 		}
 		return response;
 	}

@@ -30,7 +30,7 @@ class PostTwitterStatusTask extends AsyncTask<Void, Void, Void> {
 	@Override
 	protected Void doInBackground(Void... params) {
 		try {
-			responseStatus = TwitterHelper.postStatus(statusMessage);
+			responseStatus = TwitterHelper.postStatus(mContext, statusMessage);
 		} catch (Exception e) {
 			exception = e;
 		}
