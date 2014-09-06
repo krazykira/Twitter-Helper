@@ -83,8 +83,8 @@ public class TwitterHelper {
 	 * @param showProgress
 	 */
 	public static void postStatusInBackground(final Context mContext,
-			final String status, final TwitterStatusCallback mCallback,
-			final boolean showProgress) {
+			final String status, final boolean showProgress,
+			final TwitterStatusCallback mCallback) {
 		if (isTwitterLoggedIn()) {
 			PostTwitterStatusTask pst = new PostTwitterStatusTask(mContext,
 					status, mCallback, showProgress);
@@ -117,7 +117,7 @@ public class TwitterHelper {
 	 * @return Twitter status Response
 	 * @throws TwitterException
 	 */
-	static Status postStatus(String status) throws TwitterException {
+	public static Status postStatus(String status) throws TwitterException {
 		// Update status
 		twitter4j.Status response = null;
 		if (isTwitterLoggedIn()) {
