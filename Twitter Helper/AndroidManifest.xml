@@ -7,7 +7,7 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="19" />
 
-    <application android:allowBackup="true" >
+    <application>
 
         <!--
              <activity>
@@ -21,7 +21,7 @@
                     android:host="callback"
                     android:scheme="x-oauthflow-twitter" />
             </intent-filter>
-        </activity>
+        </activity>
         -->
     </application>
 

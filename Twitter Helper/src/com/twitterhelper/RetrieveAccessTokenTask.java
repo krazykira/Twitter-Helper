@@ -1,7 +1,6 @@
 package com.twitterhelper;
 
 import twitter4j.TwitterException;
-import twitter4j.User;
 import twitter4j.auth.AccessToken;
 import android.content.Context;
 import android.content.SharedPreferences.Editor;
@@ -75,9 +74,9 @@ class RetrieveAccessTokenTask extends AsyncTask<Void, Void, Void> {
 
 		// Getting user details from twitter
 		// For now i am getting his name only
-		long userID = accessToken.getUserId();
-		User user = TwitterHelper.twitter.showUser(userID);
-		String username = user.getName();
+		// long userID = accessToken.getUserId();
+		// User user = TwitterHelper.twitter.showUser(userID);
+		// String username = user.getName();
 
 	}
 

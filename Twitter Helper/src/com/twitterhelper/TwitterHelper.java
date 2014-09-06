@@ -1,5 +1,8 @@
 package com.twitterhelper;
 
+import twitter4j.*;
+import twitter4j.conf.*;
+import twitter4j.auth.*;
 import twitter4j.Twitter;
 import twitter4j.auth.RequestToken;
 import android.content.Context;
@@ -28,15 +31,15 @@ public class TwitterHelper {
 			String TWITTER_CONSUMER_SECRET) {
 		CONSUMER_KEY = TWITTER_CONSUMER_KEY;
 		CONSUMER_SECRET = TWITTER_CONSUMER_SECRET;
+		// Shared Preferences
+		mSharedPreferences = mContext.getSharedPreferences(
+				Constants.PREFERENCE_NAME, Context.MODE_PRIVATE);
 	}
 
 	public static void logIntoTwitter(Context context,
 			TwitterLoginCallback mListener) {
 		mContext = context;
 		twitterLoginListener = mListener;
-		// Shared Preferences
-		mSharedPreferences = mContext.getSharedPreferences(
-				Constants.PREFERENCE_NAME, Context.MODE_PRIVATE);
 		// Check if Internet present
 		if (!InternetDetector.isConnectingToInternet(mContext)) {
 			String error = "Please connect to working Internet connection";
@@ -61,7 +64,7 @@ public class TwitterHelper {
 				twitterLoginListener.onLoginFailed(e);
 
 		}
-		if (isTwitterLoggedInAlready()) {
+		if (isTwitterLoggedIn()) {
 			twitterLoginListener.onLoginSuccess();
 
 		} else {
@@ -71,10 +74,83 @@ public class TwitterHelper {
 	}
 
 	/**
+	 * Post status on Twitter in background thread
+	 * 
+	 * @param mContext
+	 * @param status
+	 * @param mCallback
+	 *            this will be called when background process gets completed
+	 * @param showProgress
+	 */
+	public static void postStatusInBackground(final Context mContext,
+			final String status, final TwitterStatusCallback mCallback,
+			final boolean showProgress) {
+		if (isTwitterLoggedIn()) {
+			PostTwitterStatusTask pst = new PostTwitterStatusTask(mContext,
+					status, mCallback, showProgress);
+			pst.execute();
+		} else
+			logIntoTwitter(mContext, new TwitterLoginCallback() {
+
+				@Override
+				public void onLoginSuccess() {
+					PostTwitterStatusTask pst = new PostTwitterStatusTask(
+							mContext, status, mCallback, showProgress);
+					pst.execute();
+
+				}
+
+				@Override
+				public void onLoginFailed(Exception e) {
+					CommonMethods.showAlertDialog(mContext,
+							"Twitter Login Failed", e.getMessage());
+				}
+			});
+
+	}
+
+	/**
+	 * Post status to Twitter
+	 * 
+	 * @param status
+	 *            which the user wants to post on Twitter
+	 * @return Twitter status Response
+	 * @throws TwitterException
+	 */
+	static Status postStatus(String status) throws TwitterException {
+		// Update status
+		twitter4j.Status response = null;
+		if (isTwitterLoggedIn()) {
+			ConfigurationBuilder builder = new ConfigurationBuilder();
+			builder.setOAuthConsumerKey(CONSUMER_KEY);
+			builder.setOAuthConsumerSecret(CONSUMER_SECRET);
+
+			// Access Token
+			String access_token = mSharedPreferences.getString(
+					Constants.PREF_KEY_OAUTH_TOKEN, "");
+			// Access Token Secret
+			String access_token_secret = mSharedPreferences.getString(
+					Constants.PREF_KEY_OAUTH_SECRET, "");
+
+			AccessToken accessToken = new AccessToken(access_token,
+					access_token_secret);
+			Twitter twitter = new TwitterFactory(builder.build())
+					.getInstance(accessToken);
+
+			// Update status
+			response = twitter.updateStatus(status);
+		} else {
+			CommonMethods.showAlertDialog(mContext, "Twitter Not Logged in",
+					"Log into twitter to continue");
+		}
+		return response;
+	}
+
+	/**
 	 * Check user already logged in your application using twitter Login flag is
 	 * fetched from Shared Preferences
 	 * */
-	static boolean isTwitterLoggedInAlready() {
+	static boolean isTwitterLoggedIn() {
 		// return twitter login status from Shared Preferences
 		return mSharedPreferences.getBoolean(Constants.PREF_KEY_TWITTER_LOGIN,
 				false);

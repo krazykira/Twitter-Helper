@@ -10,7 +10,8 @@ enum Constants {
 
 	// Twitter oauth urls
 	static final String URL_TWITTER_OAUTH_VERIFIER = "oauth_verifier";
-//	Dialog Constants
-	static final String DEFAULT_DIALOG_MESSAGE="Please Wait....";
+	// Dialog Constants
+	static final String DEFAULT_DIALOG_MESSAGE = "Please Wait....";
+	static final String TWITTER_POST_STATUS = "Updating Status on Twitter. Please Wait....";
 
 }
