@@ -23,7 +23,7 @@ class LoginAsyncTask extends AsyncTask<Void, Void, Void> {
 	@Override
 	protected void onPreExecute() {
 		CommonMethods.showProgressDialog(context,
-				R.string.dialog_default_message, false);
+				Constants.DEFAULT_DIALOG_MESSAGE, false);
 		super.onPreExecute();
 	}
 

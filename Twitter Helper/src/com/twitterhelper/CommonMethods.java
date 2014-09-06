@@ -3,7 +3,6 @@ package com.twitterhelper;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface.OnClickListener;
 
 class CommonMethods {
 	private static ProgressDialog mProgressDialog;
@@ -12,18 +11,16 @@ class CommonMethods {
 	 * Show progress dialog with title
 	 * 
 	 * @param mContext
-	 * @param titleId
-	 *            set 0 for hiding title
-	 * @param messageId
+	 * @param title
+	 * @param message
 	 * @param cancelable
 	 */
-	public final static void showProgressDialog(Context mContext, int titleId,
-			int messageId, boolean cancelable) {
+	public final static void showProgressDialog(Context mContext, String title,
+			String message, boolean cancelable) {
 		mProgressDialog = new ProgressDialog(mContext);
 		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-		mProgressDialog.setTitle(mContext.getResources().getString(titleId));
-		mProgressDialog
-				.setMessage(mContext.getResources().getString(messageId));
+		mProgressDialog.setTitle(title);
+		mProgressDialog.setMessage(message);
 		mProgressDialog.setCancelable(cancelable);
 		mProgressDialog.show();
 	}
@@ -32,15 +29,14 @@ class CommonMethods {
 	 * Show progress dialog without title
 	 * 
 	 * @param mContext
-	 * @param messageId
+	 * @param message
 	 * @param cancelable
 	 */
 	public final static void showProgressDialog(Context mContext,
-			int messageId, boolean cancelable) {
+			String message, boolean cancelable) {
 		mProgressDialog = new ProgressDialog(mContext);
 		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-		mProgressDialog
-				.setMessage(mContext.getResources().getString(messageId));
+		mProgressDialog.setMessage(message);
 		mProgressDialog.setCancelable(cancelable);
 		mProgressDialog.show();
 	}
@@ -69,15 +65,4 @@ class CommonMethods {
 		bld.create().show();
 	}
 
-	public static void showCustomAlertDialog(Context context, String title,
-			String message, String positiveText,
-			OnClickListener positiveListener, String negativeText,
-			OnClickListener negativeListener) {
-		AlertDialog.Builder bld = new AlertDialog.Builder(context);
-		bld.setTitle(title);
-		bld.setMessage(message);
-		bld.setPositiveButton(positiveText, positiveListener);
-		bld.setNegativeButton(negativeText, negativeListener);
-		bld.create().show();
-	}
 }
