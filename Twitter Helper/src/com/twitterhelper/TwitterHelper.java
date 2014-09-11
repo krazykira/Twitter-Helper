@@ -1,5 +1,9 @@
 package com.twitterhelper;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+
 import twitter4j.*;
 import twitter4j.conf.*;
 import twitter4j.auth.*;
@@ -7,6 +11,9 @@ import twitter4j.Twitter;
 import twitter4j.auth.RequestToken;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 
 public class TwitterHelper {
 
@@ -83,14 +90,14 @@ public class TwitterHelper {
 	 * @param showProgress
 	 */
 	public static void postStatusInBackground(final Context mContext,
-			final String status, final boolean showProgress,
-			final TwitterStatusCallback mCallback) {
+			final String tweetMessage, final Bitmap tweetBitmapImage,
+			final boolean showProgress, final TwitterStatusCallback mCallback) {
 		// Shared Preferences
 		mSharedPreferences = mContext.getSharedPreferences(
 				Constants.PREFERENCE_NAME, Context.MODE_PRIVATE);
 		if (isTwitterLoggedIn()) {
 			PostTwitterStatusTask pst = new PostTwitterStatusTask(mContext,
-					status, mCallback, showProgress);
+					tweetMessage, tweetBitmapImage, mCallback, showProgress);
 			pst.execute();
 		} else
 			logIntoTwitter(mContext, new TwitterLoginCallback() {
@@ -98,7 +105,8 @@ public class TwitterHelper {
 				@Override
 				public void onLoginSuccess() {
 					PostTwitterStatusTask pst = new PostTwitterStatusTask(
-							mContext, status, mCallback, showProgress);
+							mContext, tweetMessage, tweetBitmapImage,
+							mCallback, showProgress);
 					pst.execute();
 
 				}
@@ -113,16 +121,19 @@ public class TwitterHelper {
 	}
 
 	/**
-	 * Post status to Twitter
+	 * 
+	 * Post status with image to twitter to Twitter
 	 * 
 	 * @param mContext
-	 * @param status
+	 * @param tweetMessage
 	 *            which the user wants to post on Twitter
+	 * @param tweetBitmapImage
+	 *            send null to ignore image
 	 * @return Twitter status Response
 	 * @throws TwitterException
 	 */
-	public static Status postStatus(Context mContext, String status)
-			throws TwitterException {
+	public static Status postStatus(Context mContext, String tweetMessage,
+			Bitmap tweetBitmapImage) throws TwitterException {
 		// Shared Preferences
 		mSharedPreferences = mContext.getSharedPreferences(
 				Constants.PREFERENCE_NAME, Context.MODE_PRIVATE);
@@ -144,9 +155,20 @@ public class TwitterHelper {
 					access_token_secret);
 			Twitter twitter = new TwitterFactory(builder.build())
 					.getInstance(accessToken);
+			StatusUpdate mStatusUpdate = new StatusUpdate(tweetMessage);
 
+			if (tweetBitmapImage != null) {
+				ByteArrayOutputStream bao = new ByteArrayOutputStream();
+				tweetBitmapImage.compress(CompressFormat.PNG, 0 /*
+																 * ignored for
+																 * PNG
+																 */, bao);
+				byte[] bitmapdata = bao.toByteArray();
+				ByteArrayInputStream bs = new ByteArrayInputStream(bitmapdata);
+				mStatusUpdate.setMedia("Photo", bs);
+			}
 			// Update status
-			response = twitter.updateStatus(status);
+			response = twitter.updateStatus(mStatusUpdate);
 		}
 		return response;
 	}

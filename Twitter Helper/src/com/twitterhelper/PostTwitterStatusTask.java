@@ -1,6 +1,7 @@
 package com.twitterhelper;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
 class PostTwitterStatusTask extends AsyncTask<Void, Void, Void> {
@@ -8,15 +9,17 @@ class PostTwitterStatusTask extends AsyncTask<Void, Void, Void> {
 	private boolean showDialog;
 	private TwitterStatusCallback mCallback;
 	private Exception exception;
-	private String statusMessage;
+	private String tweetMessage;
 	private twitter4j.Status responseStatus;
+	private Bitmap bitmapImage;
 
-	public PostTwitterStatusTask(Context mContext, String statusToPost,
+	public PostTwitterStatusTask(Context mContext, String tweet, Bitmap bitmap,
 			TwitterStatusCallback mCallback, boolean showProgressDialog) {
 		this.mContext = mContext;
-		statusMessage = statusToPost;
+		tweetMessage = tweet;
 		showDialog = showProgressDialog;
 		this.mCallback = mCallback;
+		bitmapImage = bitmap;
 	}
 
 	@Override
@@ -31,7 +34,8 @@ class PostTwitterStatusTask extends AsyncTask<Void, Void, Void> {
 	@Override
 	protected Void doInBackground(Void... params) {
 		try {
-			responseStatus = TwitterHelper.postStatus(mContext, statusMessage);
+			responseStatus = TwitterHelper.postStatus(mContext, tweetMessage,
+					bitmapImage);
 		} catch (Exception e) {
 			exception = e;
 		}
