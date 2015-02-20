@@ -19,7 +19,7 @@ You will need a **consumer key** and a **consumer secret** (collectively, a “T
   - If you are using login, add a placeholder URL in the Callback URL ﬁeld (eg. “http://example.com”).
   - Click update settings.
   
->**Allow Sign in with Twitter: **
+**Allow Sign in with Twitter:**
 > If you wish to use Login with Twitter, be sure that Allow this application to be used to Sign in to Twitter is checked:
 
 <br>
@@ -37,13 +37,14 @@ Add internet permission to your project
    
 ```
 
-### Initializing Twitter Helper 
+### Initializing Twitter Helper Singleton
 
 You can initialize the Twitter Helper singleton in either your Application class or in the start of your launch Activity. 
 ```sh
 TwitterHelper.initialize(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET);
 
 ```
+
 >If you forget to initialize Twitter Helper then it will cause exceptions. so **DONT FORGET TO INITIALIZE Twitter Helper Singleton**
 
 ### Logging In to Twitter
