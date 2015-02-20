@@ -30,7 +30,8 @@ class TwitterLoginDialog {
 			}
 		});
 		mDialog.show();
-
+		CommonMethods.showProgressDialog(mContext,
+				Constants.DEFAULT_DIALOG_MESSAGE, false);
 	}
 
 	private static WebView getWebView(Context mContext, String url) {
@@ -48,7 +49,7 @@ class TwitterLoginDialog {
 				// The progress meter will automatically disappear when we reach
 				// 100%
 				// mActivity.setProgress(progress * 1000);
-				if (progress > 90)
+				if (progress > 95)
 					CommonMethods.dismissProgressDialog();
 
 			}
@@ -58,6 +59,7 @@ class TwitterLoginDialog {
 			@Override
 			public void onReceivedError(WebView view, int errorCode,
 					String description, String failingUrl) {
+				CommonMethods.dismissProgressDialog();
 				mDialog.dismiss();
 				Uri uri = Uri.parse(failingUrl);
 				if (uri.getScheme().toString()

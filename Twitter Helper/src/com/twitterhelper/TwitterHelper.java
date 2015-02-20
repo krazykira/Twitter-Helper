@@ -2,8 +2,6 @@ package com.twitterhelper;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-
 import twitter4j.*;
 import twitter4j.conf.*;
 import twitter4j.auth.*;
@@ -13,7 +11,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
-import android.graphics.BitmapFactory;
 
 public class TwitterHelper {
 
@@ -104,6 +101,7 @@ public class TwitterHelper {
 
 				@Override
 				public void onLoginFailed(Exception e) {
+					if(e!=null)
 					CommonMethods.showAlertDialog(mContext, "Twitter Login Failed", e.getMessage());
 				}
 			});
