@@ -2,7 +2,7 @@ Twitter-Helper
 ==============
 A Twitter integration library for Android that helps making twitter integration very easy. Using Twitter Helper you can:
   - Login and logout from Twitter
-  - Post Simple Tweeets
+  - Post Simple Tweets
   - Post Tweets with Image
   
 
