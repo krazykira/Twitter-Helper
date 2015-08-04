@@ -22,9 +22,8 @@ You will need a **consumer key** and a **consumer secret** (collectively, a “T
 **Allow Sign in with Twitter:**
 > If you wish to use Login with Twitter, be sure that Allow this application to be used to Sign in to Twitter is checked:
 
-<br>
-
 -----
+<br>
 
 **Follow the guidelines below in order to integrate Twitter into your Android app. The guidelines defined below are based on Eclipse so you might need to add it as module when your using Android Studio**
 
