@@ -26,7 +26,11 @@ You will need a **consumer key** and a **consumer secret** (collectively, a “T
 
 -----
 
-**Follow the guidelines below in order to integrate Twitter into your Android app.**
+**Follow the guidelines below in order to integrate Twitter into your Android app. The guidelines defined below are based on Eclipse so you might need to add it as module when your using Android Studio**
+
+### Adding Twitter Helper
+
+Download and Add Twitter Helper as Library project
 
 ### Adding the Permission
 
@@ -37,9 +41,9 @@ Add internet permission to your project
    
 ```
 
-### Initializing Twitter Helper Singleton
+### Initializing Twitter Helper
 
-You can initialize the Twitter Helper singleton in either your Application class or in the start of your launch Activity. 
+You can initialize the Twitter Helper in either your Application class or in the start of your launch Activity. 
 ```sh
 TwitterHelper.initialize(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET);
 
