@@ -1,4 +1,4 @@
-Twitter-Helper
+Twitter-Helper (Not maintaining this repository anymore)
 ==============
 A Twitter integration library for Android that helps making twitter integration very easy. Using Twitter Helper you can:
   - Login and logout from Twitter
